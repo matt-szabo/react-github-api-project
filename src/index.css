@@ -31,7 +31,9 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 
-
+.myUserDiv {
+    height:75px;
+}
 
 
 .search-page {
@@ -50,9 +52,23 @@ h1,h2,h3,h4,h5,h6 {
     font-size: 20px;
 }
 
+.followers-page img{
 
+    height: 100px;
+}
 
+.followers-page {
 
+    height: 100px;
+}
+
+.infinit{
+    height:100px
+}
+
+.following-page img{
+    height: 100px;
+}
 
 .user-info {
     display: flex;
