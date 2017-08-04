@@ -24,7 +24,7 @@ class Following extends React.Component {
     }
 
     fetchData(){
-        let url = "https://api.github.com/users/"+this.props.params.username+"/following?access_token=9f68bc33faa84e740d9aefa8fe80304c17a94544";
+        let url = "https://api.github.com/users/"+this.props.params.username+"/following?access_token=e06c4ef355fe5f5d9c1f5ac68600351889d992fd";
         console.log("url: ", url)
         fetch(url)
             .then(response => response.json())

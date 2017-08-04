@@ -20,8 +20,8 @@ class User extends React.Component {
     When `render` gets called again, `this.state.user` exists and we get the user info display instead of "LOADING..."
     */
     fetchData() {
-
-        let url = "https://api.github.com/users/"+this.props.params.username+"?access_token=9f68bc33faa84e740d9aefa8fe80304c17a94544";
+        // after username +"?access_token=9f68bc33faa84e740d9aefa8fe80304c17a94544
+        let url = "https://api.github.com/users/"+this.props.params.username+"?access_token=e06c4ef355fe5f5d9c1f5ac68600351889d992fd";
         fetch(url)
         .then(response => response.json())
         .then(

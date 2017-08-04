@@ -19,6 +19,7 @@ class Followers extends React.Component {
         super(props);
         this.state = {page:1,
         loading:false,
+            stop:false,
             followers:[]}
 
         this.fetchData=this.fetchData.bind(this);
@@ -28,15 +29,27 @@ class Followers extends React.Component {
     }
 
 fetchData(){
+  //after followers ?access_token=e06c4ef355fe5f5d9c1f5ac68600351889d992fd
 
-    this.setState({loading:true});
-    let url = "https://api.github.com/users/"+this.props.params.username+"/followers?access_token=9f68bc33faa84e740d9aefa8fe80304c17a94544&page="+this.state.page+"&per_page=20";
+    if (!this.state.stop) {
+        this.setState({loading: true});
+    }
+    let url = "https://api.github.com/users/"+this.props.params.username+"/followers?access_token=e06c4ef355fe5f5d9c1f5ac68600351889d992fd&page="+this.state.page+"&per_page=50";
     //console.log("url: ", url)
     fetch(url)
         .then(response => response.json())
         .then(data => {
-
-            this.setState( state  => ({followers:this.state.followers.concat(data),loading:false}));
+           if (data.length > 0) {
+                console.log("data0: ", data[0].id)
+                console.log("the array of followers", data)
+                this.setState(state => ({followers: this.state.followers.concat(data), loading: false,page:this.state.page +1}));
+            }
+            else {
+               //console.log("data0: ", data[0].id)
+               console.log("data.length: ", data.length)
+               console.log("data.length: ", this.state.followers.length)
+              this.setState({loading:false,stop:true})
+           }
             console.log("Loading: ",this.state.loading)
         })
 
@@ -49,21 +62,21 @@ fetchData(){
 //
 // }
 
-handleEnd = () => {
-    console.log("handleEnd is being called")
-    //this.setState(state => ({page : state.page +1 }), () => this.fetchData());
-    this.setState(state => ({page : state.page +1 }));
-}
+// handleEnd = () => {
+//     console.log("handleEnd is being called")
+//     //this.setState(state => ({page : state.page +1 }), () => this.fetchData());
+//     this.setState(state => ({page : state.page +1 }));
+// }
 
 
     componentDidUpdate(prevProps, prevState){
 
        console.log("prevprops: ", prevProps.params.username)
        console.log("this.props: ", this.props.params.username)
-        if (prevState.page !== this.state.page){
-
-            this.fetchData()
-        }
+        // if (prevState.page !== this.state.page){
+        //
+        //     this.fetchData()
+        // }
 
     }
 
@@ -73,15 +86,11 @@ handleEnd = () => {
         var Infinite = require('react-infinite');
         console.log("Kabooey");
 
-
-        var Infinite = require('react-infinite');
-        // console.log("Kabooey");
-
-
+        /*containerHeight={window.innerHeight} timeScrollStateLastsForAfterUserScrolls={2000}*/
         return <Infinite
-            isInfiniteLoading={this.state.loading} onInfiniteLoad={this.handleEnd.bind(this)} useWindowAsScrollContainer
-            elementHeight={100} infiniteLoadBeginEdgeOffset={-100} className="infinit"
-            containerHeight={window.innerHeight} timeScrollStateLastsForAfterUserScrolls={2000}>
+            isInfiniteLoading={this.state.loading} onInfiniteLoad={this.fetchData} useWindowAsScrollContainer
+            elementHeight={100} infiniteLoadBeginEdgeOffset={100} className="infinit"
+            >
 
 
             <div className="followers-page">
