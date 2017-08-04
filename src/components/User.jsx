@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+var config = require('./config.js');
+
+
 class User extends React.Component {
     constructor() {
         super();
@@ -19,8 +22,10 @@ class User extends React.Component {
     the data -- in the callback -- we call `setState` to put the user data in our state. This will trigger a re-render.
     When `render` gets called again, `this.state.user` exists and we get the user info display instead of "LOADING..."
     */
-    componentDidMount() {
-        fetch(`https://api.github.com/users/${this.props.params.username}`)
+    fetchData() {
+        // after username +"?access_token=9f68bc33faa84e740d9aefa8fe80304c17a94544
+        let url = "https://api.github.com/users/"+this.props.params.username+"?access_token="+config.APIKEY;
+        fetch(url)
         .then(response => response.json())
         .then(
             user => {
@@ -31,6 +36,23 @@ class User extends React.Component {
                 });
             }
         );
+    }
+
+    componentDidMount(){
+
+        this.fetchData()
+
+    }
+
+    componentDidUpdate(prevProps, prevState){
+
+        console.log("prevprops: ", prevProps.params.username)
+        console.log("this.props: ", this.props.params.username)
+        if (prevProps.params.username !== this.props.params.username){
+
+            this.fetchData()
+        }
+
     }
 
     /*
@@ -89,6 +111,7 @@ class User extends React.Component {
                         {stats.map(this.renderStat)}
                     </ul>
                 </div>
+                {this.props.children}
             </div>
         );
     }
