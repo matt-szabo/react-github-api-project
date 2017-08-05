@@ -11,36 +11,70 @@ we will use react-router's history.push function to push a new URL to the histor
 This will have as an effect to navigate to a new URL, which will display the User component
 Why are we doing this instead of using a <Link>? The answer is straightforward, but make sure you understand!!!
 */
+
+var config = require('./config.js');
+
 class Following extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            page: 1,
+            loading: false,
+            stop:false,
+            following: []
 
+        }
 
+    }
 
         // Why do we need to do this?? Make sure you understand!!!
         //  this._handleSubmit = this._handleSubmit.bind(this);
     }
+fetchData() {
 
-    fetchData(){
-        let url = "https://api.github.com/users/"+this.props.params.username+"/following?access_token=326e94c381cdeef6b4699fd11ccd6f7ffa7c5824";
-        console.log("url: ", url)
+
+
+    this.setState({loading: true});
+    console.log("the loading condition is: ", this.state.loading)
+
+    let url = "https://api.github.com/users/" + this.props.params.username + "/following?access_token="+config.APIKEY+"&page=" + this.state.page + "&per_page=50";
+    //console.log("url: ", url)
+
+    if (!this.state.stop) {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                this.setState({following: data})
-                console.log("the array: ", this.state.following)
+                //  console.log("data0: ", data[0].id)
+                //  console.log("the array of followers", data)
+                if (data.length > 0) {
+
+                    this.setState({
+                        following: this.state.following.concat(data),
+                        loading: false,
+                        page: this.state.page + 1
+                    });
+                }
+
+                else {
+                    console.log("data0: ", data[0].id)
+                    console.log("data.length: ", data.length)
+                    console.log("data.length: ", this.state.following.length)
+                    this.setState({loading: false, stop: true})
+                }
+
             })
-
-
     }
 
-    componentDidMount(){
 
-        this.fetchData()
 
-    }
+}
+
+    // componentDidMount(){
+    //
+    //     this.fetchData()
+    //
+    // }
 
 
     componentDidUpdate(prevProps, prevState){
@@ -59,21 +93,29 @@ class Following extends React.Component {
 
     render() {
 
-        if (this.state.following) {
+    var Infinite = require('react-infinite');
+
+    console.log("Render method on following is called here and loading is: ", this.state.loading);
 
             return (
                 <div className="following-page">
                     <h2>{this.props.params.username} follows:</h2>
-                    <ul>
+
+
+                    <Infinite
+                        isInfiniteLoading={this.state.loading} onInfiniteLoad={this.fetchData} useWindowAsScrollContainer
+                        elementHeight={75} infiniteLoadBeginEdgeOffset={100} loadingSpinnerDelegate={<div>LOADING</div>} className="infinit">
+
+
                         {this.state.following.map((follow) => (
                             <GithubUser key={follow.id} username={follow.login} avatar={follow.avatar_url}/>))}
-                    </ul>
+                    </Infinite>
+
+
                 </div>
             );
-        }
-        else{
-            return <div>LOADING USERS...</div>
-        }
+
+
     }
 };
 

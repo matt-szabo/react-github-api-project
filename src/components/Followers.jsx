@@ -82,7 +82,7 @@ class Followers extends React.Component {
     render() {
         var Infinite = require('react-infinite');
 
-        console.log("Render method is called here and loading is: ", this.state.loading);
+        console.log("Render method on followers is called here and loading is: ", this.state.loading);
 
 
         return (
@@ -92,7 +92,7 @@ class Followers extends React.Component {
 
                 <Infinite
                     isInfiniteLoading={this.state.loading} onInfiniteLoad={this.fetchData} useWindowAsScrollContainer
-                    elementHeight={75} infiniteLoadBeginEdgeOffset={100} className="infinit">
+                    elementHeight={75} infiniteLoadBeginEdgeOffset={100} loadingSpinnerDelegate={<div>LOADING</div>} className="infinit">
 
 
                     {this.state.followers.map((follower) => (
