@@ -24,7 +24,11 @@ class GithubRepo extends React.Component {
     }
 
     fetchData(){
+<<<<<<< HEAD
+        let url = "https://api.github.com/users/"+this.props.params.username+"/repos?access_token=326e94c381cdeef6b4699fd11ccd6f7ffa7c5824";
+=======
         let url = "https://api.github.com/users/"+this.props.params.username+"/repos?access_token=e06c4ef355fe5f5d9c1f5ac68600351889d992fd";
+>>>>>>> 27cb1eb6d301041c6e5e2d235936639e8e992095
         console.log("url: ", url)
         fetch(url)
             .then(response => response.json())
