@@ -11,13 +11,17 @@ we will use react-router's history.push function to push a new URL to the histor
 This will have as an effect to navigate to a new URL, which will display the User component
 Why are we doing this instead of using a <Link>? The answer is straightforward, but make sure you understand!!!
 */
+<<<<<<< HEAD
 
 var config = require('./config.js');
 
+=======
+>>>>>>> 27cb1eb6d301041c6e5e2d235936639e8e992095
 class Following extends React.Component {
 
     constructor(props) {
         super(props);
+<<<<<<< HEAD
         this.state = {
             page: 1,
             loading: false,
@@ -27,10 +31,16 @@ class Following extends React.Component {
         }
 
     }
+=======
+        this.state = {}
+
+
+>>>>>>> 27cb1eb6d301041c6e5e2d235936639e8e992095
 
         // Why do we need to do this?? Make sure you understand!!!
         //  this._handleSubmit = this._handleSubmit.bind(this);
     }
+<<<<<<< HEAD
 fetchData() {
 
 
@@ -75,6 +85,27 @@ fetchData() {
     //     this.fetchData()
     //
     // }
+=======
+
+    fetchData(){
+        let url = "https://api.github.com/users/"+this.props.params.username+"/following?access_token=e06c4ef355fe5f5d9c1f5ac68600351889d992fd";
+        console.log("url: ", url)
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({following: data})
+                console.log("the array: ", this.state.following)
+            })
+
+
+    }
+
+    componentDidMount(){
+
+        this.fetchData()
+
+    }
+>>>>>>> 27cb1eb6d301041c6e5e2d235936639e8e992095
 
 
     componentDidUpdate(prevProps, prevState){
@@ -93,13 +124,18 @@ fetchData() {
 
     render() {
 
+<<<<<<< HEAD
     var Infinite = require('react-infinite');
 
     console.log("Render method on following is called here and loading is: ", this.state.loading);
+=======
+        if (this.state.following) {
+>>>>>>> 27cb1eb6d301041c6e5e2d235936639e8e992095
 
             return (
                 <div className="following-page">
                     <h2>{this.props.params.username} follows:</h2>
+<<<<<<< HEAD
 
 
                     <Infinite
@@ -116,6 +152,18 @@ fetchData() {
             );
 
 
+=======
+                    <ul>
+                        {this.state.following.map((follow) => (
+                            <GithubUser key={follow.id} username={follow.login} avatar={follow.avatar_url}/>))}
+                    </ul>
+                </div>
+            );
+        }
+        else{
+            return <div>LOADING USERS...</div>
+        }
+>>>>>>> 27cb1eb6d301041c6e5e2d235936639e8e992095
     }
 };
 
