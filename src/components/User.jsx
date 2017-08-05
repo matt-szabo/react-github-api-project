@@ -24,11 +24,9 @@ class User extends React.Component {
     */
     fetchData() {
         // after username +"?access_token=9f68bc33faa84e740d9aefa8fe80304c17a94544
-<<<<<<< HEAD
+
         let url = "https://api.github.com/users/"+this.props.params.username+"?access_token="+config.APIKEY;
-=======
-        let url = "https://api.github.com/users/"+this.props.params.username+"?access_token=e06c4ef355fe5f5d9c1f5ac68600351889d992fd";
->>>>>>> 27cb1eb6d301041c6e5e2d235936639e8e992095
+
         fetch(url)
         .then(response => response.json())
         .then(
