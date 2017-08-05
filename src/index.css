@@ -32,7 +32,11 @@ h1,h2,h3,h4,h5,h6 {
 
 
 .myUserDiv {
+<<<<<<< HEAD
+    height:75px;
+=======
     height:100px;
+>>>>>>> 27cb1eb6d301041c6e5e2d235936639e8e992095
 }
 
 
